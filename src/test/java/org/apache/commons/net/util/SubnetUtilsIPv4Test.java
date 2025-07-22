@@ -42,7 +42,7 @@ import org.junit.jupiter.params.provider.FieldSource;
  * Tests {@link SubnetUtils}.
  */
 @SuppressWarnings("deprecation") // deliberate use of deprecated methods
-public class SubnetUtilsTest {
+public class SubnetUtilsIPv4Test {
 
     /**
      * Fixture values includes counting the host.
@@ -469,7 +469,9 @@ public class SubnetUtilsTest {
         final List<String> addressList = new ArrayList<>();
         subnetUtils.getInfo().iterableAddressStrings().forEach(addressList::add);
         assertEquals(max, addressList.size());
-        LongStream.rangeClosed(1, max).forEach(i -> addressList.contains("192.168.1." + i));
+        LongStream.rangeClosed(1, max).forEach(i -> {
+            assertTrue(addressList.contains("192.168.1." + i));
+        });
         assertFalse(addressList.contains("192.168.1.0"));
         assertFalse(addressList.contains("192.168.1.255"));
     }
@@ -495,7 +497,9 @@ public class SubnetUtilsTest {
         @SuppressWarnings("resource")
         final List<String> addressList = subnetUtils.getInfo().streamAddressStrings().collect(Collectors.toList());
         assertEquals(max, addressList.size());
-        LongStream.rangeClosed(1, max).forEach(i -> addressList.contains("192.168.1." + i));
+        LongStream.rangeClosed(1, max).forEach(i -> {
+            assertTrue(addressList.contains("192.168.1." + i));
+        });
         assertFalse(addressList.contains("192.168.1.0"));
         assertFalse(addressList.contains("192.168.1.255"));
     }
